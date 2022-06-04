@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  app:
+    image: node:16.15 # 17未満じゃないと怒られるので注意
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 8910:8910 # WebのPort
+      - 8911:8911 # APIのPort
+    volumes:
+      - ./my-redwood-project:/app # pathの調整
+      - node_modules:/app/node_modules #volume trick
+    tty: true
+    working_dir: /app
+    command: sh -c "yarn install && yarn rw dev"
+
+volumes:
+  node_modules:
+    driver: local
